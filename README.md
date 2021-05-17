@@ -1,5 +1,6 @@
 # Instagram-Clone
 Built an Instagram clone using react and firebase.
+
 It contains feature like:
 <ul>User Authentication</ul>
 <ul>Real-time uploading post</ul>
