@@ -5,6 +5,7 @@ import { db, auth } from './firebase';
 import Modal from '@material-ui/core/Modal';
 import { Button, Input, makeStyles } from '@material-ui/core';
 import ImageUpload from './ImageUpload';
+import Avatar from "@material-ui/core/Avatar";
 // import InstagramEmbed from 'react-instagram-embed';
 
 function getModalStyle() {
@@ -176,6 +177,18 @@ function App() {
         <img className="app__headerImage"
         src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
           alt="" />
+
+          
+          {
+       user && (
+         <Avatar
+            className="post__header__avatar"
+            alt={ user.displayName}
+            src="/static/images/avatar/1.jpg"
+        />  
+        ) 
+        }
+        
          {
         user ? (
           <Button onClick={()=>auth.signOut()}>Logout</Button>
@@ -224,7 +237,7 @@ function App() {
       
       </div>
       
-      <div className="upload__div">
+      <div className= "upload__div">
       
         {
         user?.displayName ? (

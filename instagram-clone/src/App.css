@@ -23,6 +23,11 @@
   object-fit: contain;
 }
 
+.post__header__avatar{
+    margin-right: 10px;
+    margin-left: auto;
+}
+
 .app__signup{
   display:flex;
   flex-direction: column;
@@ -48,3 +53,4 @@
     position: sticky;
     bottom: 0;
 }
+
