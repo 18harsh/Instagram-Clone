@@ -7,6 +7,7 @@ import './ImageUpload.css'
 function ImageUpload({username}) {
 
     const [image, setImage] = useState(null);
+    
     // const [url, setUrl] = useState('');
     const [progress, setProgress] = useState(0);
     const [caption, setCaption] = useState('');
@@ -18,17 +19,31 @@ function ImageUpload({username}) {
     }
     const handleUpload = () => {
         const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        
+        
         uploadTask.on(
             "state_changed",
             (snapshot) => {
+                // progress...
+                
+                if (snapshot.totalBytes >= 3000000) {
+                    uploadTask.cancel();
+                }
                 const progress = Math.round(
                     (snapshot.bytesTransferred/snapshot.totalBytes)*100
                 );
+
                 setProgress(progress);
             },
             (error) => {
+                if (error.code === 'storage/canceled') {
+                    
+                    alert(`File size exceeded 3MB`);
+                } else {
+                    alert(error.message);
+                }
                 console.log(error);
-                alert(error.message);
+                
             },
             () => {
                 storage
@@ -36,11 +51,13 @@ function ImageUpload({username}) {
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
+                        
                         db.collection("posts").add({
                             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                             caption: caption,
                             imageURL: url,
-                            username: username
+                            username: username,
+                            type: uploadTask._delegate._blob.type_,
 
                         });
                         setProgress(0);

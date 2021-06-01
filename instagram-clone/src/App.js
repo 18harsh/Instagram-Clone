@@ -48,8 +48,11 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged((authUser)=>{
     if (authUser) {
       //user has logged in... 
-      console.log(authUser);
+      
       setUser(authUser);
+      // console.log(user)
+      // console.log(user?.displayName);
+      
     } else {
       // user has logged out...
       setUser(null);
@@ -82,11 +85,12 @@ function App() {
         })
         
       })
-    .catch((error)=>alert(error.message))
+      .catch((error) => alert(error.message))
+    
     setOpen(false)
-    setUsername("");
     setPassword("");
     setEmail("");
+    setUsername("");
   }
 
   const signIn = (e) => {
@@ -183,7 +187,7 @@ function App() {
        user && (
          <Avatar
             className="post__header__avatar"
-            alt={ user.displayName}
+            alt={ user.displayName || "?"}
             src="/static/images/avatar/1.jpg"
         />  
         ) 
@@ -208,7 +212,7 @@ function App() {
         <div className="app__postsLeft">
         {
         posts.map(({ id, post }) => (
-          <Post key={ id } postId={id} user={user} username={post.username} caption={ post.caption} imageUrl={ post.imageURL}/>
+          <Post key={id} postId={id} user={user} username={post.username} caption={post.caption} imageUrl={post.imageURL} type={post.type} />
         ))
         }
           </div>
@@ -216,7 +220,7 @@ function App() {
 
         <div className="app_postsRight">
           {/* if you have clientAccessToken than use InstagramEmbed instead of dummy image*/}
-            <img className="post__image"
+            <img className="post__imageEmbed"
             src="https://beta.techcrunch.com/wp-content/uploads/2013/10/levis.png?w=417"
               alt="" />
             {/* <InstagramEmbed
